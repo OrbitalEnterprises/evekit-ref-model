@@ -33,17 +33,12 @@ public class RefData extends RefCachedData {
 
   // Request expiry data
   private long                serverStatusExpiry        = -1;
-  private long                callListExpiry            = -1;
   private long                allianceListExpiry        = -1;
   private long                conquerableStationsExpiry = -1;
-  private long                errorListExpiry           = -1;
   private long                facWarStatsExpiry         = -1;
   private long                facWarTopStatsExpiry      = -1;
-  private long                refTypeExpiry             = -1;
   private long                skillTreeExpiry           = -1;
   private long                facWarSystemsExpiry       = -1;
-  private long                mapJumpExpiry             = -1;
-  private long                mapKillExpiry             = -1;
   private long                sovereigntyExpiry         = -1;
 
   /**
@@ -61,15 +56,6 @@ public class RefData extends RefCachedData {
   public void setServerStatusExpiry(
                                     long serverStatusExpiry) {
     this.serverStatusExpiry = serverStatusExpiry;
-  }
-
-  public long getCallListExpiry() {
-    return callListExpiry;
-  }
-
-  public void setCallListExpiry(
-                                long callListExpiry) {
-    this.callListExpiry = callListExpiry;
   }
 
   public long getAllianceListExpiry() {
@@ -90,15 +76,6 @@ public class RefData extends RefCachedData {
     this.conquerableStationsExpiry = conquerableStationsExpiry;
   }
 
-  public long getErrorListExpiry() {
-    return errorListExpiry;
-  }
-
-  public void setErrorListExpiry(
-                                 long errorListExpiry) {
-    this.errorListExpiry = errorListExpiry;
-  }
-
   public long getFacWarStatsExpiry() {
     return facWarStatsExpiry;
   }
@@ -115,15 +92,6 @@ public class RefData extends RefCachedData {
   public void setFacWarTopStatsExpiry(
                                       long facWarTopStatsExpiry) {
     this.facWarTopStatsExpiry = facWarTopStatsExpiry;
-  }
-
-  public long getRefTypeExpiry() {
-    return refTypeExpiry;
-  }
-
-  public void setRefTypeExpiry(
-                               long refTypeExpiry) {
-    this.refTypeExpiry = refTypeExpiry;
   }
 
   public long getSkillTreeExpiry() {
@@ -144,24 +112,6 @@ public class RefData extends RefCachedData {
     this.facWarSystemsExpiry = facWarSystemsExpiry;
   }
 
-  public long getMapJumpExpiry() {
-    return mapJumpExpiry;
-  }
-
-  public void setMapJumpExpiry(
-                               long mapJumpExpiry) {
-    this.mapJumpExpiry = mapJumpExpiry;
-  }
-
-  public long getMapKillExpiry() {
-    return mapKillExpiry;
-  }
-
-  public void setMapKillExpiry(
-                               long mapKillExpiry) {
-    this.mapKillExpiry = mapKillExpiry;
-  }
-
   public long getSovereigntyExpiry() {
     return sovereigntyExpiry;
   }
@@ -176,15 +126,10 @@ public class RefData extends RefCachedData {
     final int prime = 31;
     int result = super.hashCode();
     result = prime * result + (int) (allianceListExpiry ^ (allianceListExpiry >>> 32));
-    result = prime * result + (int) (callListExpiry ^ (callListExpiry >>> 32));
     result = prime * result + (int) (conquerableStationsExpiry ^ (conquerableStationsExpiry >>> 32));
-    result = prime * result + (int) (errorListExpiry ^ (errorListExpiry >>> 32));
     result = prime * result + (int) (facWarStatsExpiry ^ (facWarStatsExpiry >>> 32));
     result = prime * result + (int) (facWarSystemsExpiry ^ (facWarSystemsExpiry >>> 32));
     result = prime * result + (int) (facWarTopStatsExpiry ^ (facWarTopStatsExpiry >>> 32));
-    result = prime * result + (int) (mapJumpExpiry ^ (mapJumpExpiry >>> 32));
-    result = prime * result + (int) (mapKillExpiry ^ (mapKillExpiry >>> 32));
-    result = prime * result + (int) (refTypeExpiry ^ (refTypeExpiry >>> 32));
     result = prime * result + (int) (serverStatusExpiry ^ (serverStatusExpiry >>> 32));
     result = prime * result + (int) (skillTreeExpiry ^ (skillTreeExpiry >>> 32));
     result = prime * result + (int) (sovereigntyExpiry ^ (sovereigntyExpiry >>> 32));
@@ -199,15 +144,10 @@ public class RefData extends RefCachedData {
     if (getClass() != obj.getClass()) return false;
     RefData other = (RefData) obj;
     if (allianceListExpiry != other.allianceListExpiry) return false;
-    if (callListExpiry != other.callListExpiry) return false;
     if (conquerableStationsExpiry != other.conquerableStationsExpiry) return false;
-    if (errorListExpiry != other.errorListExpiry) return false;
     if (facWarStatsExpiry != other.facWarStatsExpiry) return false;
     if (facWarSystemsExpiry != other.facWarSystemsExpiry) return false;
     if (facWarTopStatsExpiry != other.facWarTopStatsExpiry) return false;
-    if (mapJumpExpiry != other.mapJumpExpiry) return false;
-    if (mapKillExpiry != other.mapKillExpiry) return false;
-    if (refTypeExpiry != other.refTypeExpiry) return false;
     if (serverStatusExpiry != other.serverStatusExpiry) return false;
     if (skillTreeExpiry != other.skillTreeExpiry) return false;
     if (sovereigntyExpiry != other.sovereigntyExpiry) return false;
@@ -216,10 +156,10 @@ public class RefData extends RefCachedData {
 
   @Override
   public String toString() {
-    return "RefData [serverStatusExpiry=" + serverStatusExpiry + ", callListExpiry=" + callListExpiry + ", allianceListExpiry=" + allianceListExpiry
-        + ", conquerableStationsExpiry=" + conquerableStationsExpiry + ", errorListExpiry=" + errorListExpiry + ", facWarStatsExpiry=" + facWarStatsExpiry
-        + ", facWarTopStatsExpiry=" + facWarTopStatsExpiry + ", refTypeExpiry=" + refTypeExpiry + ", skillTreeExpiry=" + skillTreeExpiry
-        + ", facWarSystemsExpiry=" + facWarSystemsExpiry + ", mapJumpExpiry=" + mapJumpExpiry + ", mapKillExpiry=" + mapKillExpiry + ", sovereigntyExpiry="
+    return "RefData [serverStatusExpiry=" + serverStatusExpiry + ", allianceListExpiry=" + allianceListExpiry
+        + ", conquerableStationsExpiry=" + conquerableStationsExpiry + ", facWarStatsExpiry=" + facWarStatsExpiry
+        + ", facWarTopStatsExpiry=" + facWarTopStatsExpiry + ", skillTreeExpiry=" + skillTreeExpiry
+        + ", facWarSystemsExpiry=" + facWarSystemsExpiry + ", sovereigntyExpiry="
         + sovereigntyExpiry + "]";
   }
 
