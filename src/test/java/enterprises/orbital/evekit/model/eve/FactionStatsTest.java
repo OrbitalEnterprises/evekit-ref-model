@@ -112,21 +112,21 @@ public class FactionStatsTest extends AbstractRefModelTester<FactionStats> {
         factionID, factionName, killsLastWeek, killsTotal, killsYesterday, pilots, systemsControlled, victoryPointsLastWeek, victoryPointsTotal,
         victoryPointsYesterday);
     keyed.setup(8888L);
-    keyed = RefCachedData.updateData(keyed);
+    keyed = RefCachedData.update(keyed);
 
     // Different faction ID
     existing = new FactionStats(
         factionID + 1, factionName, killsLastWeek, killsTotal, killsYesterday, pilots, systemsControlled, victoryPointsLastWeek, victoryPointsTotal,
         victoryPointsYesterday);
     existing.setup(8888L);
-    RefCachedData.updateData(existing);
+    RefCachedData.update(existing);
 
     // Not live at the given time
     existing = new FactionStats(
         factionID, factionName, killsLastWeek + 1, killsTotal, killsYesterday, pilots, systemsControlled, victoryPointsLastWeek, victoryPointsTotal,
         victoryPointsYesterday);
     existing.setup(9999L);
-    RefCachedData.updateData(existing);
+    RefCachedData.update(existing);
 
     // EOL before the given time
     existing = new FactionStats(
@@ -134,7 +134,7 @@ public class FactionStatsTest extends AbstractRefModelTester<FactionStats> {
         victoryPointsYesterday);
     existing.setup(7777L);
     existing.evolve(null, 7977L);
-    RefCachedData.updateData(existing);
+    RefCachedData.update(existing);
 
     FactionStats result = FactionStats.get(8889L, factionID);
     Assert.assertEquals(keyed, result);

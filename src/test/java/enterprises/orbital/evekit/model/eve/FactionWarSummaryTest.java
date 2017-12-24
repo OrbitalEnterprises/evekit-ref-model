@@ -79,18 +79,18 @@ public class FactionWarSummaryTest extends AbstractRefModelTester<FactionWarSumm
 
     keyed = new FactionWarSummary(killsLastWeek, killsTotal, killsYesterday, victoryPointsLastWeek, victoryPointsTotal, victoryPointsYesterday);
     keyed.setup(8888L);
-    keyed = RefCachedData.updateData(keyed);
+    keyed = RefCachedData.update(keyed);
 
     // Not live at the given time
     existing = new FactionWarSummary(killsLastWeek + 1, killsTotal, killsYesterday, victoryPointsLastWeek, victoryPointsTotal, victoryPointsYesterday);
     existing.setup(9999L);
-    RefCachedData.updateData(existing);
+    RefCachedData.update(existing);
 
     // EOL before the given time
     existing = new FactionWarSummary(killsLastWeek + 2, killsTotal, killsYesterday, victoryPointsLastWeek, victoryPointsTotal, victoryPointsYesterday);
     existing.setup(7777L);
     existing.evolve(null, 7977L);
-    RefCachedData.updateData(existing);
+    RefCachedData.update(existing);
 
     FactionWarSummary result = FactionWarSummary.get(8889L);
     Assert.assertEquals(keyed, result);

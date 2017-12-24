@@ -1,29 +1,16 @@
 package enterprises.orbital.evekit.model;
 
-import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Index;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
-import javax.persistence.NoResultException;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
-import javax.persistence.Transient;
-import javax.persistence.TypedQuery;
-
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
-
-import enterprises.orbital.db.ConnectionFactory.RunInTransaction;
 import enterprises.orbital.evekit.account.EveKitRefDataProvider;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+
+import javax.persistence.*;
+import java.io.IOException;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Common abstract class for all reference model objects (this is data available from the XML API which does not require a key and access code). Every
@@ -48,7 +35,7 @@ import io.swagger.annotations.ApiModelProperty;
 @ApiModel(
     description = "Reference model data common properties")
 public abstract class RefCachedData {
-  private static final Logger log           = Logger.getLogger(RefCachedData.class.getName());
+  private static final Logger log = Logger.getLogger(RefCachedData.class.getName());
   // Unique cached data element ID
   @Id
   @GeneratedValue(
@@ -61,13 +48,13 @@ public abstract class RefCachedData {
       sequenceName = "ref_sequence")
   @ApiModelProperty(
       value = "Unique ID")
-  private long                cid;
+  private long cid;
   // Version and access mask. These are constants after creation.
   // Version 1 - pre Wayback Machine types
   // Version 2 - Introduction of wayback machine
   @ApiModelProperty(
       value = "EveKit release version")
-  private short               eveKitVersion = 2;
+  private short eveKitVersion = 2;
   // About Object Lifelines:
   //
   // Every cached data object (with a few minor exceptions) has a time when it was created and a time when it was
@@ -84,10 +71,10 @@ public abstract class RefCachedData {
   // [ key.lifeStart, lifeEnd]
   @ApiModelProperty(
       value = "Model lifeline start (milliseconds UTC)")
-  protected long              lifeStart;
+  protected long lifeStart;
   @ApiModelProperty(
       value = "Model lifeline end (milliseconds UTC), MAX_LONG for live data")
-  protected long              lifeEnd;
+  protected long lifeEnd;
   // Transient timestamp fields for better readability
   @Transient
   @ApiModelProperty(
@@ -96,7 +83,7 @@ public abstract class RefCachedData {
   @JsonFormat(
       shape = JsonFormat.Shape.STRING,
       pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
-  private Date                lifeStartDate;
+  private Date lifeStartDate;
   @Transient
   @ApiModelProperty(
       value = "lifeEnd Date")
@@ -104,7 +91,7 @@ public abstract class RefCachedData {
   @JsonFormat(
       shape = JsonFormat.Shape.STRING,
       pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
-  private Date                lifeEndDate;
+  private Date lifeEndDate;
 
   /**
    * Update transient date values for readability.
@@ -112,7 +99,7 @@ public abstract class RefCachedData {
   public abstract void prepareDates();
 
   protected Date assignDateField(
-                                 long dateValue) {
+      long dateValue) {
     return dateValue < 0 ? null : new Date(dateValue);
   }
 
@@ -125,31 +112,29 @@ public abstract class RefCachedData {
   }
 
   public static boolean nullSafeObjectCompare(
-                                              Object a,
-                                              Object b) {
+      Object a,
+      Object b) {
     return a == b || (a != null && a.equals(b));
   }
 
   /**
    * Initialize this CachedData object.
-   * 
-   * @param start
-   *          start time of the life line of this object
+   *
+   * @param start start time of the life line of this object
    */
   public final void setup(
-                          long start) {
+      long start) {
     this.lifeStart = start;
     this.lifeEnd = Long.MAX_VALUE;
   }
 
   /**
    * Duplicate the cached data headers of this object onto the target object.
-   * 
-   * @param target
-   *          the target object to be modified
+   *
+   * @param target the target object to be modified
    */
   public final void dup(
-                        RefCachedData target) {
+      RefCachedData target) {
     target.eveKitVersion = eveKitVersion;
     target.lifeStart = this.lifeStart;
     target.lifeEnd = this.lifeEnd;
@@ -158,15 +143,13 @@ public abstract class RefCachedData {
   /**
    * End of life the current Entity (lifeEnd = time), and configure the other entity to be the next generation of the current entity (lifeStart = time, lifeEnd
    * = Long.MAX_LONG). Also initializes the CachedData fields of the other entity.
-   * 
-   * @param other
-   *          object we're evolving to
-   * @param time
-   *          the time which marks the start of the evolution
+   *
+   * @param other object we're evolving to
+   * @param time  the time which marks the start of the evolution
    */
   public final void evolve(
-                           RefCachedData other,
-                           long time) {
+      RefCachedData other,
+      long time) {
     setLifeEnd(time);
     if (other != null) {
       dup(other);
@@ -179,13 +162,12 @@ public abstract class RefCachedData {
 
   /**
    * Determine whether this entity is equivalent to another entity. Entities only compare their non-CachedData fields for equivalence.
-   * 
-   * @param other
-   *          the entity to compare against.
+   *
+   * @param other the entity to compare against.
    * @return true if the entities are equivalent except possibly for their CachedData headers, false otherwise.
    */
   public abstract boolean equivalent(
-                                     RefCachedData other);
+      RefCachedData other);
 
   public long getCid() {
     return cid;
@@ -196,12 +178,12 @@ public abstract class RefCachedData {
   }
 
   public void setEveKitVersion(
-                               short eveKitVersion) {
+      short eveKitVersion) {
     this.eveKitVersion = eveKitVersion;
   }
 
   public void setLifeStart(
-                           long lifeStart) {
+      long lifeStart) {
     this.lifeStart = lifeStart;
   }
 
@@ -214,7 +196,7 @@ public abstract class RefCachedData {
   }
 
   public void setLifeEnd(
-                         long lifeEnd) {
+      long lifeEnd) {
     this.lifeEnd = lifeEnd;
   }
 
@@ -231,7 +213,7 @@ public abstract class RefCachedData {
 
   @Override
   public boolean equals(
-                        Object obj) {
+      Object obj) {
     if (this == obj) return true;
     if (obj == null) return false;
     if (getClass() != obj.getClass()) return false;
@@ -248,54 +230,68 @@ public abstract class RefCachedData {
     return "PublicCachedData [cid=" + cid + ", eveKitVersion=" + eveKitVersion + ", lifeStart=" + lifeStart + ", lifeEnd=" + lifeEnd + "]";
   }
 
-  public static RefCachedData get(
-                                  final long cid,
-                                  final String tableName) {
-    try {
-      return EveKitRefDataProvider.getFactory().runTransaction(new RunInTransaction<RefCachedData>() {
-        @Override
-        public RefCachedData run() throws Exception {
-          TypedQuery<RefCachedData> getter = EveKitRefDataProvider.getFactory().getEntityManager()
-              .createQuery("SELECT c FROM " + tableName + " c WHERE c.cid = :cid", RefCachedData.class);
-          getter.setParameter("cid", cid);
-          try {
-            return getter.getSingleResult();
-          } catch (NoResultException e) {
-            return null;
-          }
-        }
-      });
-    } catch (Exception e) {
-      log.log(Level.SEVERE, "query error", e);
+  protected static void setCIDOrdering(StringBuilder qs, long contid, boolean reverse) {
+    if (reverse) {
+      qs.append(" and c.cid < ")
+        .append(contid);
+      qs.append(" order by cid desc");
+    } else {
+      qs.append(" and c.cid > ")
+        .append(contid);
+      qs.append(" order by cid asc");
     }
-    return null;
   }
 
-  public static RefCachedData get(
-                                  final long cid) {
+  public static RefCachedData getByCIDandTable(
+      final long cid,
+      final String tableName) throws IOException {
+    try {
+      return EveKitRefDataProvider.getFactory()
+                                  .runTransaction(() -> {
+                                    TypedQuery<RefCachedData> getter = EveKitRefDataProvider.getFactory()
+                                                                                            .getEntityManager()
+                                                                                            .createQuery("SELECT c FROM " + tableName + " c WHERE c.cid = :cid", RefCachedData.class);
+                                    getter.setParameter("cid", cid);
+                                    try {
+                                      return getter.getSingleResult();
+                                    } catch (NoResultException e) {
+                                      return null;
+                                    }
+                                  });
+    } catch (Exception e) {
+      if (e.getCause() instanceof IOException) throw (IOException) e.getCause();
+      log.log(Level.SEVERE, "query error", e);
+      throw new IOException(e.getCause());
+    }
+  }
+
+  public static RefCachedData getByCID(
+      final long cid) throws IOException {
     String type = RefModelTypeMap.retrieveType(cid);
     if (type == null) return null;
-    return RefCachedData.get(cid, type);
+    return RefCachedData.getByCIDandTable(cid, type);
   }
 
-  public static <A extends RefCachedData> A updateData(
-                                                       final A data) {
+  public static <A extends RefCachedData> A update(
+      final A data) throws IOException {
     try {
-      return EveKitRefDataProvider.getFactory().runTransaction(new RunInTransaction<A>() {
-        @Override
-        public A run() throws Exception {
-          A result = EveKitRefDataProvider.getFactory().getEntityManager().merge(data);
-          // Ensure type map entry exists
-          String typeName = data.getClass().getSimpleName();
-          RefModelTypeMap tn = new RefModelTypeMap(result.getCid(), typeName);
-          if (RefModelTypeMap.update(tn) == null) return null;
-          return result;
-        }
-      });
+      return EveKitRefDataProvider.getFactory()
+                                  .runTransaction(() -> {
+                                    A result = EveKitRefDataProvider.getFactory()
+                                                                    .getEntityManager()
+                                                                    .merge(data);
+                                    // Ensure type map entry exists
+                                    String typeName = data.getClass()
+                                                          .getSimpleName();
+                                    RefModelTypeMap tn = new RefModelTypeMap(result.getCid(), typeName);
+                                    if (RefModelTypeMap.update(tn) == null) return null;
+                                    return result;
+                                  });
     } catch (Exception e) {
+      if (e.getCause() instanceof IOException) throw (IOException) e.getCause();
       log.log(Level.SEVERE, "query error", e);
+      throw new IOException(e.getCause());
     }
-    return null;
   }
 
 }

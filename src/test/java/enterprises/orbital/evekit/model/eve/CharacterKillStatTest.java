@@ -75,28 +75,28 @@ public class CharacterKillStatTest extends AbstractRefModelTester<CharacterKillS
 
     keyed = new CharacterKillStat(attribute, kills, characterID, characterName);
     keyed.setup(8888L);
-    keyed = RefCachedData.updateData(keyed);
+    keyed = RefCachedData.update(keyed);
 
     // Different character ID
     existing = new CharacterKillStat(attribute, kills, characterID + 1, characterName);
     existing.setup(8888L);
-    RefCachedData.updateData(existing);
+    RefCachedData.update(existing);
 
     // Different attribute
     existing = new CharacterKillStat(StatAttribute.TOTAL, kills, characterID, characterName);
     existing.setup(8888L);
-    RefCachedData.updateData(existing);
+    RefCachedData.update(existing);
 
     // Not live at the given time
     existing = new CharacterKillStat(attribute, kills + 1, characterID, characterName);
     existing.setup(9999L);
-    RefCachedData.updateData(existing);
+    RefCachedData.update(existing);
 
     // EOL before the given time
     existing = new CharacterKillStat(attribute, kills + 2, characterID, characterName);
     existing.setup(7777L);
     existing.evolve(null, 7977L);
-    RefCachedData.updateData(existing);
+    RefCachedData.update(existing);
 
     CharacterKillStat result = CharacterKillStat.get(8889L, attribute, characterID);
     Assert.assertEquals(keyed, result);
@@ -110,13 +110,13 @@ public class CharacterKillStatTest extends AbstractRefModelTester<CharacterKillS
     CharacterKillStat lw, t, y;
     lw = new CharacterKillStat(StatAttribute.LAST_WEEK, kills, characterID, characterName);
     lw.setup(stamp);
-    lw = RefCachedData.updateData(lw);
+    lw = RefCachedData.update(lw);
     t = new CharacterKillStat(StatAttribute.TOTAL, kills, characterID, characterName);
     t.setup(stamp);
-    t = RefCachedData.updateData(t);
+    t = RefCachedData.update(t);
     y = new CharacterKillStat(StatAttribute.YESTERDAY, kills, characterID, characterName);
     y.setup(stamp);
-    y = RefCachedData.updateData(y);
+    y = RefCachedData.update(y);
     // Verify attribute selector works properly
     final AttributeSelector ANY_SELECTOR = new AttributeSelector("{ any: true }");
     final AttributeSelector atSel = new AttributeSelector("{values: [" + stamp + "]}");

@@ -71,28 +71,28 @@ public class FactionKillStatTest extends AbstractRefModelTester<FactionKillStat>
 
     keyed = new FactionKillStat(attribute, kills, factionID, factionName);
     keyed.setup(8888L);
-    keyed = RefCachedData.updateData(keyed);
+    keyed = RefCachedData.update(keyed);
 
     // Different faction ID
     existing = new FactionKillStat(attribute, kills, factionID + 1, factionName);
     existing.setup(8888L);
-    RefCachedData.updateData(existing);
+    RefCachedData.update(existing);
 
     // Different attribute
     existing = new FactionKillStat(StatAttribute.YESTERDAY, kills, factionID, factionName);
     existing.setup(8888L);
-    RefCachedData.updateData(existing);
+    RefCachedData.update(existing);
 
     // Not live at the given time
     existing = new FactionKillStat(attribute, kills + 1, factionID, factionName);
     existing.setup(9999L);
-    RefCachedData.updateData(existing);
+    RefCachedData.update(existing);
 
     // EOL before the given time
     existing = new FactionKillStat(attribute, kills + 2, factionID, factionName);
     existing.setup(7777L);
     existing.evolve(null, 7977L);
-    RefCachedData.updateData(existing);
+    RefCachedData.update(existing);
 
     FactionKillStat result = FactionKillStat.get(8889L, attribute, factionID);
     Assert.assertEquals(keyed, result);

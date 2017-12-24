@@ -75,23 +75,23 @@ public class SovereigntyTest extends AbstractRefModelTester<Sovereignty> {
 
     keyed = new Sovereignty(allianceID, corporationID, factionID, solarSystemID, solarSystemName);
     keyed.setup(8888L);
-    keyed = RefCachedData.updateData(keyed);
+    keyed = RefCachedData.update(keyed);
 
     // Different solar system ID
     existing = new Sovereignty(allianceID, corporationID, factionID, solarSystemID + 1, solarSystemName);
     existing.setup(8888L);
-    RefCachedData.updateData(existing);
+    RefCachedData.update(existing);
 
     // Not live at the given time
     existing = new Sovereignty(allianceID + 1, corporationID, factionID, solarSystemID, solarSystemName);
     existing.setup(9999L);
-    RefCachedData.updateData(existing);
+    RefCachedData.update(existing);
 
     // EOL before the given time
     existing = new Sovereignty(allianceID + 2, corporationID, factionID, solarSystemID, solarSystemName);
     existing.setup(7777L);
     existing.evolve(null, 7977L);
-    RefCachedData.updateData(existing);
+    RefCachedData.update(existing);
 
     Sovereignty result = Sovereignty.get(8889L, solarSystemID);
     Assert.assertEquals(keyed, result);

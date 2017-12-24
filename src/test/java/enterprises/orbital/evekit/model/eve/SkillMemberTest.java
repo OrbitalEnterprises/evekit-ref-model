@@ -84,23 +84,23 @@ public class SkillMemberTest extends AbstractRefModelTester<SkillMember> {
 
     keyed = new SkillMember(groupID, typeID, description, rank, requiredPrimaryAttribute, requiredSecondaryAttribute, typeName, published);
     keyed.setup(8888L);
-    keyed = RefCachedData.updateData(keyed);
+    keyed = RefCachedData.update(keyed);
 
     // Different type ID
     existing = new SkillMember(groupID, typeID + 1, description, rank, requiredPrimaryAttribute, requiredSecondaryAttribute, typeName, published);
     existing.setup(8888L);
-    RefCachedData.updateData(existing);
+    RefCachedData.update(existing);
 
     // Not live at the given time
     existing = new SkillMember(groupID, typeID, description + "1", rank, requiredPrimaryAttribute, requiredSecondaryAttribute, typeName, published);
     existing.setup(9999L);
-    RefCachedData.updateData(existing);
+    RefCachedData.update(existing);
 
     // EOL before the given time
     existing = new SkillMember(groupID, typeID, description + "2", rank, requiredPrimaryAttribute, requiredSecondaryAttribute, typeName, published);
     existing.setup(7777L);
     existing.evolve(null, 7977L);
-    RefCachedData.updateData(existing);
+    RefCachedData.update(existing);
 
     SkillMember result = SkillMember.get(8889L, typeID);
     Assert.assertEquals(keyed, result);

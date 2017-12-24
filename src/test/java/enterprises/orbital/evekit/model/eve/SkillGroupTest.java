@@ -67,23 +67,23 @@ public class SkillGroupTest extends AbstractRefModelTester<SkillGroup> {
 
     keyed = new SkillGroup(groupID, groupName);
     keyed.setup(8888L);
-    keyed = RefCachedData.updateData(keyed);
+    keyed = RefCachedData.update(keyed);
 
     // Different groupID
     existing = new SkillGroup(groupID + 1, groupName);
     existing.setup(8888L);
-    RefCachedData.updateData(existing);
+    RefCachedData.update(existing);
 
     // Not live at the given time
     existing = new SkillGroup(groupID, groupName + "1");
     existing.setup(9999L);
-    RefCachedData.updateData(existing);
+    RefCachedData.update(existing);
 
     // EOL before the given time
     existing = new SkillGroup(groupID, groupName + "2");
     existing.setup(7777L);
     existing.evolve(null, 7977L);
-    RefCachedData.updateData(existing);
+    RefCachedData.update(existing);
 
     SkillGroup result = SkillGroup.get(8889L, groupID);
     Assert.assertEquals(keyed, result);

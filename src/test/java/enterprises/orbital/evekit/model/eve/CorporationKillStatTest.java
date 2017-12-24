@@ -73,28 +73,28 @@ public class CorporationKillStatTest extends AbstractRefModelTester<CorporationK
 
     keyed = new CorporationKillStat(attribute, kills, corporationID, corporationName);
     keyed.setup(8888L);
-    keyed = RefCachedData.updateData(keyed);
+    keyed = RefCachedData.update(keyed);
 
     // Different corporation ID
     existing = new CorporationKillStat(attribute, kills, corporationID + 1, corporationName);
     existing.setup(8888L);
-    RefCachedData.updateData(existing);
+    RefCachedData.update(existing);
 
     // Different attribute
     existing = new CorporationKillStat(StatAttribute.TOTAL, kills, corporationID, corporationName);
     existing.setup(8888L);
-    RefCachedData.updateData(existing);
+    RefCachedData.update(existing);
 
     // Not live at the given time
     existing = new CorporationKillStat(attribute, kills + 1, corporationID, corporationName);
     existing.setup(9999L);
-    RefCachedData.updateData(existing);
+    RefCachedData.update(existing);
 
     // EOL before the given time
     existing = new CorporationKillStat(attribute, kills + 2, corporationID, corporationName);
     existing.setup(7777L);
     existing.evolve(null, 7977L);
-    RefCachedData.updateData(existing);
+    RefCachedData.update(existing);
 
     CorporationKillStat result = CorporationKillStat.get(8889L, attribute, corporationID);
     Assert.assertEquals(keyed, result);

@@ -75,28 +75,28 @@ public class CharacterVictoryPointStatTest extends AbstractRefModelTester<Charac
 
     keyed = new CharacterVictoryPointStat(attribute, victoryPoints, characterID, characterName);
     keyed.setup(8888L);
-    keyed = RefCachedData.updateData(keyed);
+    keyed = RefCachedData.update(keyed);
 
     // Different character ID
     existing = new CharacterVictoryPointStat(attribute, victoryPoints, characterID + 1, characterName);
     existing.setup(8888L);
-    RefCachedData.updateData(existing);
+    RefCachedData.update(existing);
 
     // Different attribute
     existing = new CharacterVictoryPointStat(StatAttribute.TOTAL, victoryPoints, characterID, characterName);
     existing.setup(8888L);
-    RefCachedData.updateData(existing);
+    RefCachedData.update(existing);
 
     // Not live at the given time
     existing = new CharacterVictoryPointStat(attribute, victoryPoints + 1, characterID, characterName);
     existing.setup(9999L);
-    RefCachedData.updateData(existing);
+    RefCachedData.update(existing);
 
     // EOL before the given time
     existing = new CharacterVictoryPointStat(attribute, victoryPoints + 2, characterID, characterName);
     existing.setup(7777L);
     existing.evolve(null, 7977L);
-    RefCachedData.updateData(existing);
+    RefCachedData.update(existing);
 
     CharacterVictoryPointStat result = CharacterVictoryPointStat.get(8889L, attribute, characterID);
     Assert.assertEquals(keyed, result);

@@ -71,28 +71,28 @@ public class FactionWarTest extends AbstractRefModelTester<FactionWar> {
 
     keyed = new FactionWar(againstID, againstName, factionID, factionName);
     keyed.setup(8888L);
-    keyed = RefCachedData.updateData(keyed);
+    keyed = RefCachedData.update(keyed);
 
     // Different against ID
     existing = new FactionWar(againstID + 1, againstName, factionID, factionName);
     existing.setup(8888L);
-    RefCachedData.updateData(existing);
+    RefCachedData.update(existing);
 
     // Different faction ID
     existing = new FactionWar(againstID, againstName, factionID + 1, factionName);
     existing.setup(8888L);
-    RefCachedData.updateData(existing);
+    RefCachedData.update(existing);
 
     // Not live at the given time
     existing = new FactionWar(againstID, againstName + "1", factionID, factionName);
     existing.setup(9999L);
-    RefCachedData.updateData(existing);
+    RefCachedData.update(existing);
 
     // EOL before the given time
     existing = new FactionWar(againstID, againstName + "2", factionID, factionName);
     existing.setup(7777L);
     existing.evolve(null, 7977L);
-    RefCachedData.updateData(existing);
+    RefCachedData.update(existing);
 
     FactionWar result = FactionWar.get(8889L, againstID, factionID);
     Assert.assertEquals(keyed, result);

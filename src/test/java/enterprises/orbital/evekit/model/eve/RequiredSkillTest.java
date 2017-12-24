@@ -70,28 +70,28 @@ public class RequiredSkillTest extends AbstractRefModelTester<RequiredSkill> {
 
     keyed = new RequiredSkill(parentTypeID, typeID, level);
     keyed.setup(8888L);
-    keyed = RefCachedData.updateData(keyed);
+    keyed = RefCachedData.update(keyed);
 
     // Different parent type ID
     existing = new RequiredSkill(parentTypeID + 1, typeID, level);
     existing.setup(8888L);
-    RefCachedData.updateData(existing);
+    RefCachedData.update(existing);
 
     // Different type ID
     existing = new RequiredSkill(parentTypeID, typeID + 1, level);
     existing.setup(8888L);
-    RefCachedData.updateData(existing);
+    RefCachedData.update(existing);
 
     // Not live at the given time
     existing = new RequiredSkill(parentTypeID, typeID, level + 1);
     existing.setup(9999L);
-    RefCachedData.updateData(existing);
+    RefCachedData.update(existing);
 
     // EOL before the given time
     existing = new RequiredSkill(parentTypeID, typeID, level + 2);
     existing.setup(7777L);
     existing.evolve(null, 7977L);
-    RefCachedData.updateData(existing);
+    RefCachedData.update(existing);
 
     RequiredSkill result = RequiredSkill.get(8889L, parentTypeID, typeID);
     Assert.assertEquals(keyed, result);

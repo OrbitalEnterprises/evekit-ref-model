@@ -76,23 +76,23 @@ public class AllianceTest extends AbstractRefModelTester<Alliance> {
 
     keyed = new Alliance(allianceID, executorCorpID, memberCount, name, shortName, startDate);
     keyed.setup(8888L);
-    keyed = RefCachedData.updateData(keyed);
+    keyed = RefCachedData.update(keyed);
 
     // Different alliance ID
     existing = new Alliance(allianceID + 1, executorCorpID, memberCount, name, shortName, startDate);
     existing.setup(8888L);
-    RefCachedData.updateData(existing);
+    RefCachedData.update(existing);
 
     // Not live at the given time
     existing = new Alliance(allianceID, executorCorpID, memberCount + 1, name, shortName, startDate);
     existing.setup(9999L);
-    RefCachedData.updateData(existing);
+    RefCachedData.update(existing);
 
     // EOL before the given time
     existing = new Alliance(allianceID, executorCorpID, memberCount + 2, name, shortName, startDate);
     existing.setup(7777L);
     existing.evolve(null, 7977L);
-    RefCachedData.updateData(existing);
+    RefCachedData.update(existing);
 
     Alliance result = Alliance.get(8889L, allianceID);
     Assert.assertEquals(keyed, result);

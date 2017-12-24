@@ -70,28 +70,28 @@ public class SkillBonusTest extends AbstractRefModelTester<SkillBonus> {
 
     keyed = new SkillBonus(typeID, bonusType, bonusValue);
     keyed.setup(8888L);
-    keyed = RefCachedData.updateData(keyed);
+    keyed = RefCachedData.update(keyed);
 
     // Different type ID
     existing = new SkillBonus(typeID + 1, bonusType, bonusValue);
     existing.setup(8888L);
-    RefCachedData.updateData(existing);
+    RefCachedData.update(existing);
 
     // Different bonus type
     existing = new SkillBonus(typeID, bonusType + "1", bonusValue);
     existing.setup(8888L);
-    RefCachedData.updateData(existing);
+    RefCachedData.update(existing);
 
     // Not live at the given time
     existing = new SkillBonus(typeID, bonusType, bonusValue + "1");
     existing.setup(9999L);
-    RefCachedData.updateData(existing);
+    RefCachedData.update(existing);
 
     // EOL before the given time
     existing = new SkillBonus(typeID, bonusType, bonusValue + "2");
     existing.setup(7777L);
     existing.evolve(null, 7977L);
-    RefCachedData.updateData(existing);
+    RefCachedData.update(existing);
 
     SkillBonus result = SkillBonus.get(8889L, typeID, bonusType);
     Assert.assertEquals(keyed, result);

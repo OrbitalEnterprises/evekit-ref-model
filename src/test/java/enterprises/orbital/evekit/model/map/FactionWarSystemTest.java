@@ -82,26 +82,26 @@ public class FactionWarSystemTest extends AbstractRefModelTester<FactionWarSyste
 
     keyed = new FactionWarSystem(occupyingFactionID, occupyingFactionName, owningFactionID, owningFactionName, solarSystemID, solarSystemName, contested);
     keyed.setup(8888L);
-    keyed = RefCachedData.updateData(keyed);
+    keyed = RefCachedData.update(keyed);
 
     // Different solaar system ID
     existing = new FactionWarSystem(
         occupyingFactionID, occupyingFactionName, owningFactionID, owningFactionName, solarSystemID + 1, solarSystemName, contested);
     existing.setup(8888L);
-    RefCachedData.updateData(existing);
+    RefCachedData.update(existing);
 
     // Not live at the given time
     existing = new FactionWarSystem(
         occupyingFactionID + 1, occupyingFactionName, owningFactionID, owningFactionName, solarSystemID, solarSystemName, contested);
     existing.setup(9999L);
-    RefCachedData.updateData(existing);
+    RefCachedData.update(existing);
 
     // EOL before the given time
     existing = new FactionWarSystem(
         occupyingFactionID + 2, occupyingFactionName, owningFactionID, owningFactionName, solarSystemID, solarSystemName, contested);
     existing.setup(7777L);
     existing.evolve(null, 7977L);
-    RefCachedData.updateData(existing);
+    RefCachedData.update(existing);
 
     FactionWarSystem result = FactionWarSystem.get(8889L, solarSystemID);
     Assert.assertEquals(keyed, result);

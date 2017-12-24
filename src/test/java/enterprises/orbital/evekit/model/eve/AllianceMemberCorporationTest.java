@@ -69,28 +69,28 @@ public class AllianceMemberCorporationTest extends AbstractRefModelTester<Allian
 
     keyed = new AllianceMemberCorporation(allianceID, corporationID, startDate);
     keyed.setup(8888L);
-    keyed = RefCachedData.updateData(keyed);
+    keyed = RefCachedData.update(keyed);
 
     // Different alliance ID
     existing = new AllianceMemberCorporation(allianceID + 1, corporationID, startDate);
     existing.setup(8888L);
-    RefCachedData.updateData(existing);
+    RefCachedData.update(existing);
 
     // Different corporationID
     existing = new AllianceMemberCorporation(allianceID, corporationID + 1, startDate);
     existing.setup(8888L);
-    RefCachedData.updateData(existing);
+    RefCachedData.update(existing);
 
     // Not live at the given time
     existing = new AllianceMemberCorporation(allianceID, corporationID, startDate + 1);
     existing.setup(9999L);
-    RefCachedData.updateData(existing);
+    RefCachedData.update(existing);
 
     // EOL before the given time
     existing = new AllianceMemberCorporation(allianceID, corporationID, startDate + 2);
     existing.setup(7777L);
     existing.evolve(null, 7977L);
-    RefCachedData.updateData(existing);
+    RefCachedData.update(existing);
 
     AllianceMemberCorporation result = AllianceMemberCorporation.get(8889L, allianceID, corporationID);
     Assert.assertEquals(keyed, result);
