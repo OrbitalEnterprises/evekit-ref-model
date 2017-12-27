@@ -13,12 +13,13 @@
         <class>enterprises.orbital.db.DBProperty</class>
         <class>enterprises.orbital.evekit.account.GeneralSequenceNumber</class>
         <class>enterprises.orbital.evekit.model.RefSyncTracker</class>
-
+        <class>enterprises.orbital.evekit.model.ESIRefEndpointSyncTracker</class>
         <class>enterprises.orbital.evekit.model.RefCachedData</class>
         <class>enterprises.orbital.evekit.model.RefData</class>
         <class>enterprises.orbital.evekit.model.RefModelTypeMap</class>
         <class>enterprises.orbital.evekit.model.server.ServerStatus</class>
         <class>enterprises.orbital.evekit.model.eve.Alliance</class>
+        <class>enterprises.orbital.evekit.model.eve.AllianceIcon</class>
         <class>enterprises.orbital.evekit.model.eve.AllianceMemberCorporation</class>
         <class>enterprises.orbital.evekit.model.eve.CharacterKillStat</class>
         <class>enterprises.orbital.evekit.model.eve.CharacterVictoryPointStat</class>

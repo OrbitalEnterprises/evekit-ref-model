@@ -100,7 +100,8 @@ public abstract class RefCachedData {
 
   protected Date assignDateField(
       long dateValue) {
-    return dateValue < 0 ? null : new Date(dateValue);
+    final long MAX_PARSEABLE_DATE = 253370782800000L;
+    return dateValue < 0 ? null : new Date(Math.min(dateValue, MAX_PARSEABLE_DATE));
   }
 
   /**

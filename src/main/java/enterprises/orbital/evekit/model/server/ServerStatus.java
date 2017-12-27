@@ -28,7 +28,6 @@ import java.util.logging.Logger;
 public class ServerStatus extends RefCachedData {
   private static final Logger log = Logger.getLogger(ServerStatus.class.getName());
   private int onlinePlayers;
-  private boolean serverOpen;
   private long startTime;
   private String serverVersion;
   private boolean vip;
@@ -46,10 +45,9 @@ public class ServerStatus extends RefCachedData {
   @SuppressWarnings("unused")
   protected ServerStatus() {}
 
-  public ServerStatus(int onlinePlayers, boolean serverOpen, long startTime, String serverVersion, boolean vip) {
+  public ServerStatus(int onlinePlayers, long startTime, String serverVersion, boolean vip) {
     super();
     this.onlinePlayers = onlinePlayers;
-    this.serverOpen = serverOpen;
     this.startTime = startTime;
     this.serverVersion = serverVersion;
     this.vip = vip;
@@ -72,17 +70,12 @@ public class ServerStatus extends RefCachedData {
       RefCachedData sup) {
     if (!(sup instanceof ServerStatus)) return false;
     ServerStatus other = (ServerStatus) sup;
-    return onlinePlayers == other.onlinePlayers && serverOpen == other.serverOpen &&
-        startTime == other.startTime && nullSafeObjectCompare(serverVersion, other.serverVersion) &&
+    return onlinePlayers == other.onlinePlayers && startTime == other.startTime && nullSafeObjectCompare(serverVersion, other.serverVersion) &&
         vip == other.vip;
   }
 
   public int getOnlinePlayers() {
     return onlinePlayers;
-  }
-
-  public boolean isServerOpen() {
-    return serverOpen;
   }
 
   public long getStartTime() {
@@ -104,7 +97,6 @@ public class ServerStatus extends RefCachedData {
     if (!super.equals(o)) return false;
     ServerStatus that = (ServerStatus) o;
     return onlinePlayers == that.onlinePlayers &&
-        serverOpen == that.serverOpen &&
         startTime == that.startTime &&
         vip == that.vip &&
         Objects.equals(serverVersion, that.serverVersion);
@@ -113,14 +105,13 @@ public class ServerStatus extends RefCachedData {
   @Override
   public int hashCode() {
 
-    return Objects.hash(super.hashCode(), onlinePlayers, serverOpen, startTime, serverVersion, vip);
+    return Objects.hash(super.hashCode(), onlinePlayers, startTime, serverVersion, vip);
   }
 
   @Override
   public String toString() {
     return "ServerStatus{" +
         "onlinePlayers=" + onlinePlayers +
-        ", serverOpen=" + serverOpen +
         ", startTime=" + startTime +
         ", serverVersion='" + serverVersion + '\'' +
         ", vip=" + vip +
@@ -156,7 +147,6 @@ public class ServerStatus extends RefCachedData {
       final boolean reverse,
       final AttributeSelector at,
       final AttributeSelector onlinePlayers,
-      final AttributeSelector serverOpen,
       final AttributeSelector startTime,
       final AttributeSelector serverVersion,
       final AttributeSelector vip) throws IOException {
@@ -170,7 +160,6 @@ public class ServerStatus extends RefCachedData {
                                     // Constrain attributes
                                     AttributeParameters p = new AttributeParameters("att");
                                     AttributeSelector.addIntSelector(qs, "c", "onlinePlayers", onlinePlayers);
-                                    AttributeSelector.addBooleanSelector(qs, "c", "serverOpen", serverOpen);
                                     AttributeSelector.addLongSelector(qs, "c", "startTime", startTime);
                                     AttributeSelector.addStringSelector(qs, "c", "serverVersion", serverVersion, p);
                                     AttributeSelector.addBooleanSelector(qs, "c", "vip", vip);
