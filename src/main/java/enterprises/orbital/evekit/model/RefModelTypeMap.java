@@ -24,7 +24,7 @@ public class RefModelTypeMap {
 
   // No args constructor required for Hibernate
   @SuppressWarnings("unused")
-  private RefModelTypeMap() {}
+  protected RefModelTypeMap() {}
 
   public RefModelTypeMap(long cid, String typeName) {
     super();
