@@ -43,8 +43,8 @@ public class SovereigntyCampaign extends RefCachedData {
   // Transient timestamp fields for better readability
   @Transient
   @ApiModelProperty(
-      value = "Vulnerable Start Time Date")
-  @JsonProperty("vulnerableStartTimeDate")
+      value = "Start Time Date")
+  @JsonProperty("startTimeDate")
   @JsonFormat(
       shape = JsonFormat.Shape.STRING,
       pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
