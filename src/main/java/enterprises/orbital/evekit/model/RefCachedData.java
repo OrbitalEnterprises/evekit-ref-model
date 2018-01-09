@@ -94,9 +94,9 @@ public abstract class RefCachedData {
   private Date lifeEndDate;
 
   /**
-   * Update transient date values for readability.
+   * Update transient values for readability.
    */
-  public abstract void prepareDates();
+  public abstract void prepareTransient();
 
   protected Date assignDateField(
       long dateValue) {
@@ -231,6 +231,7 @@ public abstract class RefCachedData {
     return "PublicCachedData [cid=" + cid + ", eveKitVersion=" + eveKitVersion + ", lifeStart=" + lifeStart + ", lifeEnd=" + lifeEnd + "]";
   }
 
+  @SuppressWarnings("Duplicates")
   protected static void setCIDOrdering(StringBuilder qs, long contid, boolean reverse) {
     if (reverse) {
       qs.append(" and c.cid < ")
