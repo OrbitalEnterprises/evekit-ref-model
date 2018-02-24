@@ -80,7 +80,6 @@ public class AllianceIcon extends RefCachedData {
 
   @Override
   public int hashCode() {
-
     return Objects.hash(super.hashCode(), allianceID, px64x64, px128x128);
   }
 
