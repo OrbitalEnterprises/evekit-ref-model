@@ -27,13 +27,13 @@ public class FactionWarSystem extends RefCachedData {
   private int solarSystemID;
   private int victoryPoints;
   private int victoryPointsThreshold;
-  private boolean contested;
+  private String contested;
 
   @SuppressWarnings("unused")
   protected FactionWarSystem() {}
 
   public FactionWarSystem(int occupyingFactionID, int owningFactionID, int solarSystemID, int victoryPoints,
-                          int victoryPointsThreshold, boolean contested) {
+                          int victoryPointsThreshold, String contested) {
     this.occupyingFactionID = occupyingFactionID;
     this.owningFactionID = owningFactionID;
     this.solarSystemID = solarSystemID;
@@ -63,7 +63,7 @@ public class FactionWarSystem extends RefCachedData {
         && solarSystemID == other.solarSystemID
         && victoryPoints == other.victoryPoints
         && victoryPointsThreshold == other.victoryPointsThreshold
-        && contested == other.contested;
+        && nullSafeObjectCompare(contested, other.contested);
   }
 
   public int getOccupyingFactionID() {
@@ -86,9 +86,7 @@ public class FactionWarSystem extends RefCachedData {
     return victoryPointsThreshold;
   }
 
-  public boolean isContested() {
-    return contested;
-  }
+  public String getContested() { return contested; }
 
   @Override
   public boolean equals(Object o) {
@@ -101,12 +99,13 @@ public class FactionWarSystem extends RefCachedData {
         solarSystemID == that.solarSystemID &&
         victoryPoints == that.victoryPoints &&
         victoryPointsThreshold == that.victoryPointsThreshold &&
-        contested == that.contested;
+        Objects.equals(contested, that.contested);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(super.hashCode(), occupyingFactionID, owningFactionID, solarSystemID, victoryPoints, victoryPointsThreshold, contested);
+    return Objects.hash(super.hashCode(), occupyingFactionID, owningFactionID, solarSystemID, victoryPoints,
+                        victoryPointsThreshold, contested);
   }
 
   @Override
@@ -171,7 +170,7 @@ public class FactionWarSystem extends RefCachedData {
                                     AttributeSelector.addIntSelector(qs, "c", "solarSystemID", solarSystemID);
                                     AttributeSelector.addIntSelector(qs, "c", "victoryPoints", victoryPoints);
                                     AttributeSelector.addIntSelector(qs, "c", "victoryPointsThreshold", victoryPointsThreshold);
-                                    AttributeSelector.addBooleanSelector(qs, "c", "contested", contested);
+                                    AttributeSelector.addStringSelector(qs, "c", "contested", contested, p);
                                     // Set CID constraint and ordering
                                     setCIDOrdering(qs, contid, reverse);
                                     // Return result

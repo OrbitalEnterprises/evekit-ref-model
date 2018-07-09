@@ -13,7 +13,7 @@ public class FactionWarSystemTest extends AbstractRefModelTester<FactionWarSyste
   private final int solarSystemID = TestBase.getRandomInt(100000000);
   private final int victoryPoints = TestBase.getRandomInt(100000000);
   private final int victoryPointsThreshold = TestBase.getRandomInt(100000000);
-  private final boolean contested = TestBase.getRandomBoolean();
+  private final String contested = TestBase.getRandomText(50);
 
   private final ClassUnderTestConstructor<FactionWarSystem> eol = () -> new FactionWarSystem(
       occupyingFactionID, owningFactionID,
@@ -31,7 +31,7 @@ public class FactionWarSystemTest extends AbstractRefModelTester<FactionWarSyste
         new FactionWarSystem(occupyingFactionID, owningFactionID, solarSystemID + 1, victoryPoints, victoryPointsThreshold, contested),
         new FactionWarSystem(occupyingFactionID, owningFactionID, solarSystemID, victoryPoints + 1, victoryPointsThreshold, contested),
         new FactionWarSystem(occupyingFactionID, owningFactionID, solarSystemID, victoryPoints, victoryPointsThreshold + 1, contested),
-        new FactionWarSystem(occupyingFactionID, owningFactionID, solarSystemID, victoryPoints, victoryPointsThreshold, !contested)
+        new FactionWarSystem(occupyingFactionID, owningFactionID, solarSystemID, victoryPoints, victoryPointsThreshold, contested + "1")
     });
   }
 
